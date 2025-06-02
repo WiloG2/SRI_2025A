@@ -6,7 +6,7 @@ from pathlib import Path
 # Agrega el path a `data_processing`
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
-from data_processing.preprocessing import search_tfidf  # usarás más luego
+from data_processing.preprocessing import search_bm25, search_tfidf  # usarás más luego
 
 app = FastAPI()
 
