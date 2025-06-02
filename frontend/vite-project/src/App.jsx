@@ -5,15 +5,26 @@ import MethodButtons from './components/MethodButtons';
 
 function App() {
   const [query, setQuery] = useState('');
+  const [results, setResults] = useState(null);
 
-  const handleSearchTFIDF = () => {
-    // Aquí puedes hacer una petición a tu backend en Java
-    console.log('Buscando con TF-IDF:', query);
+  const handleSearchTFIDF = async () => {
+    try {
+      const response = await fetch(`http://localhost:8000/api/search/tfidf?query=${encodeURIComponent(query)}`);
+      const data = await response.json();
+      setResults(data.results);
+    } catch (error) {
+      console.error('Error al buscar con TF-IDF:', error);
+    }
   };
 
-  const handleSearchBM25 = () => {
-    // Aquí puedes hacer una petición a tu backend en Java
-    console.log('Buscando con BM25:', query);
+  const handleSearchBM25 = async () => {
+    try {
+      const response = await fetch(`http://localhost:8000/api/search/bm25?query=${encodeURIComponent(query)}`);
+      const data = await response.json();
+      setResults(data.results);
+    } catch (error) {
+      console.error('Error al buscar con BM25:', error);
+    }
   };
 
   return (
@@ -24,6 +35,16 @@ function App() {
         onSearchTFIDF={handleSearchTFIDF}
         onSearchBM25={handleSearchBM25}
       />
+      {results && (
+        <div style={{ marginTop: '2rem', textAlign: 'left', padding: '1rem' }}>
+          <h3>Resultados:</h3>
+          <ul>
+            {results.map((res, idx) => (
+              <li key={idx} style={{ marginBottom: '1rem' }}>{res}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
