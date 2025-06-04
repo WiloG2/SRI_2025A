@@ -21,11 +21,13 @@ def preprocess_docs(docs):
     normalized_docs = [
         [token for token in doc if token.isalpha()] for doc in tokenized_docs
     ]
+
     stop_words = set(stopwords.words('english'))
     filtered_docs = [
         [token for token in doc if token not in stop_words]
         for doc in normalized_docs
     ]
+    
     lemmatizer = WordNetLemmatizer()
     lemmatized_docs = [
         [lemmatizer.lemmatize(token) for token in doc]
